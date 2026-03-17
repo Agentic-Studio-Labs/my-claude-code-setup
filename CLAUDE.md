@@ -2,7 +2,7 @@
 
 ## Environment
 
-- Default working directory: `/Users/jm/Projects`
+- Default working directory: `{{PROJECTS_DIR}}`
 - Default cloud provider: GCP (prefer `gcloud` CLI, Cloud Run, Cloud SQL, GCS, etc.)
 
 ## Communication
@@ -29,7 +29,6 @@
 - When committing: small, focused, atomic commits
 - Always run tests before committing to verify nothing is broken
 - Don't push unless explicitly asked
-- Use noreply email for commits: `5150911+jonathan-major@users.noreply.github.com`
 
 ## Memory & Context Management
 
