@@ -2,6 +2,13 @@
 
 Global Claude Code configuration for JavaScript/TypeScript, Golang, and Python projects — with Docker, GCP, and GitHub Actions support.
 
+> **Warning:** `install.sh` will **replace** your existing `~/.claude/` config files with symlinks to this repo. Existing files are backed up automatically, but you should run the tests first to verify everything works in an isolated environment:
+>
+> ```bash
+> ./test-install.sh   # runs against a temp directory, safe to run anytime
+> ./install.sh        # replaces your live config — review the backup location in the output
+> ```
+
 ## What's Included
 
 ### Auto-Formatters (PostToolUse Hooks)

@@ -5,28 +5,28 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 BACKUP_DIR="$CLAUDE_DIR/backup-$(date +%Y%m%d-%H%M%S)"
 
-# Files to symlink: source -> destination
-declare -A FILES=(
-  ["settings.json"]="$CLAUDE_DIR/settings.json"
-  ["settings.local.json"]="$CLAUDE_DIR/settings.local.json"
-  ["CLAUDE.md"]="$CLAUDE_DIR/CLAUDE.md"
-  ["statusline-command.sh"]="$CLAUDE_DIR/statusline-command.sh"
-  ["mcp.json"]="$CLAUDE_DIR/plugins/custom/.mcp.json"
-)
+# source:destination pairs
+MAPPINGS="
+settings.json:$CLAUDE_DIR/settings.json
+settings.local.json:$CLAUDE_DIR/settings.local.json
+CLAUDE.md:$CLAUDE_DIR/CLAUDE.md
+statusline-command.sh:$CLAUDE_DIR/statusline-command.sh
+mcp.json:$CLAUDE_DIR/plugins/custom/.mcp.json
+"
 
 echo "Installing Claude Code configuration..."
 echo "Source: $SCRIPT_DIR"
 echo "Target: $CLAUDE_DIR"
 echo ""
 
-# Ensure directories exist
 mkdir -p "$CLAUDE_DIR"
 mkdir -p "$CLAUDE_DIR/plugins/custom"
 
 backed_up=false
 
-for src in "${!FILES[@]}"; do
-  dest="${FILES[$src]}"
+for mapping in $MAPPINGS; do
+  src="${mapping%%:*}"
+  dest="${mapping#*:}"
   source_path="$SCRIPT_DIR/$src"
 
   if [ ! -f "$source_path" ]; then
@@ -34,7 +34,6 @@ for src in "${!FILES[@]}"; do
     continue
   fi
 
-  # Backup existing file if it's not already a symlink to our source
   if [ -e "$dest" ] && [ ! -L "$dest" ]; then
     if [ "$backed_up" = false ]; then
       mkdir -p "$BACKUP_DIR"
@@ -45,15 +44,11 @@ for src in "${!FILES[@]}"; do
     echo "  Backed up: $src"
   fi
 
-  # Remove existing file/symlink
   rm -f "$dest"
-
-  # Create symlink
   ln -s "$source_path" "$dest"
   echo "  Linked: $src -> $dest"
 done
 
-# Ensure statusline script is executable
 chmod +x "$SCRIPT_DIR/statusline-command.sh"
 
 echo ""
