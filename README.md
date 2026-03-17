@@ -2,6 +2,8 @@
 
 Global Claude Code configuration for JavaScript/TypeScript, Golang, and Python projects — with Docker, GCP, and GitHub Actions support.
 
+> *"Do. Or do not. There is no `--dry-run`."* — Yoda, probably
+>
 > **Warning:** `install.sh` will **replace** your existing `~/.claude/` config files with symlinks to this repo. Existing files are backed up automatically, but you should run the tests first to verify everything works in an isolated environment:
 >
 > ```bash
