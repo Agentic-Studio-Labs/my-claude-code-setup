@@ -1,0 +1,11 @@
+{
+"drawio": {
+    "type": "http",
+    "url": "https://mcp.draw.io/mcp"
+  },
+  "gcloud": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["@google-cloud/gcloud-mcp"]
+  }
+}

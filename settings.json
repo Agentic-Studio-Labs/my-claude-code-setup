@@ -1,0 +1,71 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/jm/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "chrome-devtools-mcp@chrome-devtools-plugins": true,
+    "context7@claude-plugins-official": true,
+    "claude-mem@thedotmack": true,
+    "visual-explainer@visual-explainer-marketplace": true,
+    "playwright@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "visual-explainer-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "nicobailon/visual-explainer"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; if [[ \"$f\" == *.py ]]; then ruff format \"$f\" && ruff check --fix \"$f\"; fi; } 2>/dev/null || true",
+            "statusMessage": "Formatting Python..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; if [[ \"$f\" =~ \\.(ts|tsx|js|jsx|json|css)$ ]]; then npx prettier --write \"$f\"; fi; } 2>/dev/null || true",
+            "statusMessage": "Formatting JS/TS..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; if [[ \"$f\" == *.go ]]; then goimports -w \"$f\"; fi; } 2>/dev/null || true",
+            "statusMessage": "Formatting Go..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; if [[ \"$(basename \"$f\")\" == Dockerfile* ]]; then hadolint \"$f\" 2>&1 | head -5 | jq -Rs '{\"systemMessage\": .}'; fi; } 2>/dev/null || true",
+            "statusMessage": "Linting Dockerfile..."
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_response.filePath // .tool_input.file_path' | { read -r f; if [[ \"$f\" == */.github/workflows/*.yml || \"$f\" == */.github/workflows/*.yaml ]]; then actionlint \"$f\" 2>&1 | head -5 | jq -Rs '{\"systemMessage\": .}'; fi; } 2>/dev/null || true",
+            "statusMessage": "Linting GitHub Actions..."
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"systemMessage\": \"⚠️ About to compact. Consider saving important context (decisions, blockers, next steps) to memory or claude-mem before proceeding.\"}'"
+          }
+        ]
+      }
+    ]
+  }
+}

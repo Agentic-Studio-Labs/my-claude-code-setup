@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(python:*)",
+      "Bash(uv:*)",
+      "Bash(pytest:*)",
+      "Bash(ruff:*)",
+      "Bash(gcloud:*)",
+      "Bash(gh:*)",
+      "Bash(docker:*)",
+      "Bash(terraform:*)",
+      "Bash(mdfind:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(which:*)",
+      "Bash(cat:*)",
+      "Bash(wc:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(go:*)",
+      "Bash(golangci-lint:*)",
+      "Bash(gopls:*)",
+      "Bash(docker-compose:*)",
+      "Bash(hadolint:*)",
+      "Bash(actionlint:*)",
+      "Bash(act:*)"
+    ]
+  }
+}
