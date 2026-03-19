@@ -82,6 +82,27 @@ PROJECTS_DIR="/home/dev/code" HOME="$TEST_HOME" "$SCRIPT_DIR/install.sh"
 assert "CLAUDE.md contains custom projects dir" grep -q "/home/dev/code" "$TEST_CLAUDE/CLAUDE.md"
 
 echo ""
+echo "=== Test 6: gstack skills installed and symlinked ==="
+rm -rf "$TEST_CLAUDE"
+PROJECTS_DIR="/tmp/test-projects" HOME="$TEST_HOME" "$SCRIPT_DIR/install.sh"
+
+assert "gstack repo cloned" test -d "$TEST_CLAUDE/skills/gstack/.git"
+assert "browse skill symlinked" test -L "$TEST_CLAUDE/skills/browse"
+assert "browse symlink points to gstack/browse" test "$(readlink "$TEST_CLAUDE/skills/browse")" = "gstack/browse"
+assert "review skill symlinked" test -L "$TEST_CLAUDE/skills/review"
+assert "ship skill symlinked" test -L "$TEST_CLAUDE/skills/ship"
+assert "debug skill symlinked" test -L "$TEST_CLAUDE/skills/debug"
+assert "qa skill symlinked" test -L "$TEST_CLAUDE/skills/qa"
+assert "office-hours skill symlinked" test -L "$TEST_CLAUDE/skills/office-hours"
+
+echo ""
+echo "=== Test 7: gstack re-install updates without re-cloning ==="
+PROJECTS_DIR="/tmp/test-projects" HOME="$TEST_HOME" "$SCRIPT_DIR/install.sh"
+
+assert "gstack repo still exists" test -d "$TEST_CLAUDE/skills/gstack/.git"
+assert "skills still symlinked after update" test -L "$TEST_CLAUDE/skills/browse"
+
+echo ""
 echo "=== Results ==="
 echo "Passed: $passed"
 echo "Failed: $failed"

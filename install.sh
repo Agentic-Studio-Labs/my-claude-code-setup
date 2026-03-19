@@ -76,6 +76,30 @@ fi
 
 chmod +x "$SCRIPT_DIR/statusline-command.sh"
 
+# --- Install gstack skills ---
+SKILLS_DIR="$CLAUDE_DIR/skills"
+GSTACK_DIR="$SKILLS_DIR/gstack"
+GSTACK_REPO="https://github.com/garrytan/gstack.git"
+
+mkdir -p "$SKILLS_DIR"
+
+if [ -d "$GSTACK_DIR/.git" ]; then
+  echo "Updating gstack skills..."
+  git -C "$GSTACK_DIR" pull --ff-only origin main 2>/dev/null || echo "  Warning: gstack update failed (offline or conflict), keeping current version"
+else
+  echo "Installing gstack skills..."
+  git clone "$GSTACK_REPO" "$GSTACK_DIR"
+fi
+
+# Symlink each gstack skill directory that contains a SKILL.md
+for skill_dir in "$GSTACK_DIR"/*/; do
+  skill_name="$(basename "$skill_dir")"
+  if [ -f "$skill_dir/SKILL.md" ]; then
+    ln -sfn "gstack/$skill_name" "$SKILLS_DIR/$skill_name"
+    echo "  Linked skill: $skill_name"
+  fi
+done
+
 echo ""
 echo "Done. Restart Claude Code to pick up changes."
 if [ "$backed_up" = true ]; then
