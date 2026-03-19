@@ -95,13 +95,36 @@ go install golang.org/x/tools/gopls@latest
 brew install hadolint actionlint act
 ```
 
+### Skills ([gstack](https://github.com/garrytan/gstack))
+
+Installed automatically by `install.sh`. Re-running the installer pulls the latest and picks up any new skills — no hardcoded skill list.
+
+| Skill | Purpose |
+|-------|---------|
+| `/browse` | Headless Chromium browsing and visual testing |
+| `/debug` | Systematic root-cause investigation |
+| `/design-consultation` | Create complete design systems from scratch |
+| `/design-review` | Audit design quality with before/after screenshots |
+| `/document-release` | Update project docs to match code changes |
+| `/gstack-upgrade` | Self-update gstack |
+| `/office-hours` | Product reframing before coding begins |
+| `/plan-ceo-review` | CEO/founder-mode scope and strategy review |
+| `/plan-design-review` | Rate design dimensions on 0-10 scale |
+| `/plan-eng-review` | Lock in architecture, edge cases, test plans |
+| `/qa` | Browser testing, bug fixing, regression tests |
+| `/qa-only` | QA testing and reporting (no code changes) |
+| `/retro` | Weekly engineering retrospective |
+| `/review` | Pre-landing PR review |
+| `/setup-browser-cookies` | Import session cookies for authenticated testing |
+| `/ship` | Merge, test, bump version, push, create PR |
+
 ## Install
 
 ```bash
 ./install.sh
 ```
 
-Symlinks all config files into `~/.claude/`. Backs up existing files before overwriting.
+Symlinks all config files into `~/.claude/`. Clones [gstack](https://github.com/garrytan/gstack) into `~/.claude/skills/gstack/` and symlinks each skill. Backs up existing files before overwriting.
 
 ## Files
 
