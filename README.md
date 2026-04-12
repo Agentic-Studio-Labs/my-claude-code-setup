@@ -13,6 +13,10 @@ Global Claude Code configuration for JavaScript/TypeScript, Golang, and Python p
 
 ## What's Included
 
+### Model
+
+Default model: **Opus** (`"model": "opus"`)
+
 ### Auto-Formatters (PostToolUse Hooks)
 
 Automatically format files on every save:
@@ -32,11 +36,16 @@ Surface lint errors as inline messages on save:
 | Dockerfiles | `hadolint` | `Dockerfile*` |
 | GitHub Actions | `actionlint` | `.github/workflows/*.yml` |
 
-### Context Management Hook
+### Session Hooks
 
-- **PreCompact** — reminds you to save important context to memory before compaction
+| Hook | Purpose |
+|------|---------|
+| **PreCompact** | Reminds you to save important context to memory before compaction |
+| **SessionStart** | Checks for Claude Code updates via [claude-changelog](https://github.com/Agentic-Studio-Labs/claude-changelog) |
 
-### Plugins (10)
+The SessionStart changelog hook requires the [claude-changelog](https://github.com/Agentic-Studio-Labs/claude-changelog) repo to be cloned and its hook symlinked to `~/.claude/changelog-check.sh`. See that repo's README for setup instructions.
+
+### Plugins (12)
 
 | Plugin | Purpose |
 |--------|---------|
@@ -45,11 +54,13 @@ Surface lint errors as inline messages on save:
 | feature-dev | Code architecture, exploration, and review agents |
 | claude-md-management | CLAUDE.md auditing and maintenance |
 | claude-code-setup | Automation recommendations |
-| chrome-devtools-mcp | Browser debugging/automation |
 | context7 | Up-to-date library docs lookup |
-| claude-mem | Cross-session memory and semantic search |
 | visual-explainer | HTML diagrams, slides, project recaps |
 | playwright | Browser/UI testing and automation |
+| code-simplifier | Code clarity and maintainability refactoring |
+| security-guidance | Security best practices and vulnerability detection |
+| ralph-loop | Recurring prompt execution loop |
+| telegram | Telegram channel integration |
 
 ### MCP Servers (2)
 
@@ -101,22 +112,53 @@ Installed automatically by `install.sh`. Re-running the installer pulls the late
 
 | Skill | Purpose |
 |-------|---------|
+| `/autoplan` | Auto-review pipeline — runs CEO, design, eng, and DX reviews |
+| `/benchmark` | Performance regression detection with baselines |
 | `/browse` | Headless Chromium browsing and visual testing |
-| `/debug` | Systematic root-cause investigation |
+| `/canary` | Post-deploy canary monitoring for errors and regressions |
+| `/careful` | Safety guardrails for destructive commands |
+| `/checkpoint` | Save and resume working state checkpoints |
+| `/codex` | OpenAI Codex CLI wrapper for code review and generation |
+| `/connect-chrome` | Connect to running Chrome for debugging |
+| `/cso` | Chief Security Officer mode — infrastructure security audit |
 | `/design-consultation` | Create complete design systems from scratch |
+| `/design-html` | Production-quality HTML/CSS design finalization |
 | `/design-review` | Audit design quality with before/after screenshots |
+| `/design-shotgun` | Generate multiple AI design variants for comparison |
+| `/devex-review` | Live developer experience audit |
 | `/document-release` | Update project docs to match code changes |
+| `/find-skills` | Discover and install agent skills |
+| `/freeze` | Restrict file edits to a specific directory |
 | `/gstack-upgrade` | Self-update gstack |
+| `/guard` | Full safety mode — destructive warnings + directory-scoped edits |
+| `/health` | Code quality dashboard (type checker, linter, tests, dead code) |
+| `/investigate` | Systematic root-cause debugging |
+| `/land-and-deploy` | Merge PR, wait for CI/deploy, verify production health |
+| `/learn` | Manage project learnings across sessions |
 | `/office-hours` | Product reframing before coding begins |
+| `/open-gstack-browser` | Launch AI-controlled Chromium with sidebar extension |
+| `/pair-agent` | Pair a remote AI agent with your browser |
 | `/plan-ceo-review` | CEO/founder-mode scope and strategy review |
 | `/plan-design-review` | Rate design dimensions on 0-10 scale |
+| `/plan-devex-review` | Interactive developer experience plan review |
 | `/plan-eng-review` | Lock in architecture, edge cases, test plans |
 | `/qa` | Browser testing, bug fixing, regression tests |
 | `/qa-only` | QA testing and reporting (no code changes) |
 | `/retro` | Weekly engineering retrospective |
 | `/review` | Pre-landing PR review |
 | `/setup-browser-cookies` | Import session cookies for authenticated testing |
+| `/setup-deploy` | Configure deployment settings for `/land-and-deploy` |
 | `/ship` | Merge, test, bump version, push, create PR |
+| `/unfreeze` | Clear freeze boundary, allow edits everywhere |
+
+### Optional: Changelog Hook
+
+The SessionStart hook checks for Claude Code releases using [claude-changelog](https://github.com/Agentic-Studio-Labs/claude-changelog). To set it up:
+
+```bash
+git clone https://github.com/Agentic-Studio-Labs/claude-changelog.git ~/Projects/claude-changelog
+ln -s ~/Projects/claude-changelog/hooks/changelog-check.sh ~/.claude/changelog-check.sh
+```
 
 ## Install
 
@@ -130,7 +172,7 @@ Symlinks all config files into `~/.claude/`. Clones [gstack](https://github.com/
 
 | File | Destination | Purpose |
 |------|-------------|---------|
-| `settings.json` | `~/.claude/settings.json` | Plugins, hooks, statusline |
+| `settings.json` | `~/.claude/settings.json` | Model, plugins, hooks, statusline |
 | `settings.local.json` | `~/.claude/settings.local.json` | Permissions |
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` | Global instructions |
 | `statusline-command.sh` | `~/.claude/statusline-command.sh` | Context usage bar |

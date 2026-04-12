@@ -91,7 +91,7 @@ assert "browse skill symlinked" test -L "$TEST_CLAUDE/skills/browse"
 assert "browse symlink points to gstack/browse" test "$(readlink "$TEST_CLAUDE/skills/browse")" = "gstack/browse"
 assert "review skill symlinked" test -L "$TEST_CLAUDE/skills/review"
 assert "ship skill symlinked" test -L "$TEST_CLAUDE/skills/ship"
-assert "debug skill symlinked" test -L "$TEST_CLAUDE/skills/debug"
+assert "investigate skill symlinked" test -L "$TEST_CLAUDE/skills/investigate"
 assert "qa skill symlinked" test -L "$TEST_CLAUDE/skills/qa"
 assert "office-hours skill symlinked" test -L "$TEST_CLAUDE/skills/office-hours"
 
