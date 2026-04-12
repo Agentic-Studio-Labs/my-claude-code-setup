@@ -3,3 +3,4 @@ tailscale
 tailscale.pub
 *.pub
 id_*
+docs/
